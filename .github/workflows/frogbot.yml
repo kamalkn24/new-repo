@@ -38,5 +38,6 @@ jobs:
           # Optional: turn on deeper CLI logs while we troubleshoot
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           FROGBOT_LOG_LEVEL: "DEBUG"
+          JF_FAIL: true
         with:
           oidc-provider-name: kamalkn24/new-repo@github 
