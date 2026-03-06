@@ -24,7 +24,7 @@ jobs:
           JF_URL: ${{ secrets.JF_URL }}
         with:
           # oidc-provider-name: ${OIDC_PROVIDER_NAME} # <owner>/<repo>@github
-          oidc-provider-name: kamalkn24/new-repo1@github
+          oidc-provider-name: kamalkn24/new-repo@github
 
       - name: Configure pip to use Artifactory Virtual Repo
         run: |           
@@ -39,4 +39,4 @@ jobs:
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           FROGBOT_LOG_LEVEL: "DEBUG"
         with:
-          oidc-provider-name: kamalkn24/new-repo1@github 
+          oidc-provider-name: kamalkn24/new-repo@github 
