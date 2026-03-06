@@ -56,7 +56,7 @@ jobs:
         env:
           JF_URL: ${{ secrets.JF_URL }}
         with:
-          oidc-provider-name: kamalkn24/new-repo1@github
+          oidc-provider-name: kamalkn24/new-repo@github
 
       # Configure pip to resolve from Artifactory
       - name: Configure pip
