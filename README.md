@@ -1,6 +1,6 @@
 # Vulnerable Python Demo App
 
-This is a simple Flask application created for testing security scanning tools.
+This is a simple Flask application created for testing security scanning tools. Test
 
 ## Run locally
 
