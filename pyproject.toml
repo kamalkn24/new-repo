@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vulnerable-python-app"
+version = "0.1.0"
+description = "Simple vulnerable Python app for JFrog Xray testing"
+authors = [
+  {name="kamalkn"}
+]
+dependencies = [
+  "Flask==1.0",
+  "requests==2.19.1",
+  "urllib3==1.23"
+]
