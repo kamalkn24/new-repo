@@ -14,6 +14,7 @@ permissions:
 jobs:
   frogbot-scan:
     runs-on: ubuntu-latest
+    environment: frogbot
     steps:
       - uses: actions/checkout@v4
       
