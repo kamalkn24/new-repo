@@ -20,6 +20,7 @@ env:
 jobs:
   build-scan:
     runs-on: ubuntu-latest
+    environment: frogbot
 
     steps:
       - name: Checkout
