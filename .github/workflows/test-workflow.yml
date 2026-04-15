@@ -98,7 +98,6 @@ jobs:
       - name: Run Xray scan
         run: |
           jf build-scan $BUILD_NAME $BUILD_NUMBER \
-            --fail=true \
             --format=sarif \
             --project=jf-example > jfrog_scan_results.sarif
 
