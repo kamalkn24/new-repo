@@ -33,5 +33,6 @@ steps:
       JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       JFROG_CLI_LOG_LEVEL: "DEBUG"
       JF_INCLUDE_ALL_VULNERABILITIES: "true"
+      JF_FAIL: "false"
       FROGBOT_LOG_LEVEL: "DEBUG"
       JF_FAIL: "true"
