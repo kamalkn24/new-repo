@@ -1,44 +1,37 @@
 name: "Frogbot PR Scan"
-on: 
-  pull_request:
-    branches: [ "main" ]
+
+on:
+pull_request:
+branches: ["main"]
 
 permissions:
-  # This is required for requesting the OIDC token
-  id-token: write
-  # This is required for actions/checkout
-  contents: write
-  # This is required for FrogBot to create PR comments
-  pull-requests: write
+id-token: write
+contents: read
+pull-requests: write
 
 jobs:
-  frogbot-scan:
-    runs-on: ubuntu-latest
-    environment: frogbot
-    steps:
-      - uses: actions/checkout@v4
-      
-      # This action sets up the JFrog CLI with the Artifactory URL and access token 
-      - name: Setup JFrog CLI
-        uses: jfrog/setup-jfrog-cli@v4
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-        with:
-          # oidc-provider-name: ${OIDC_PROVIDER_NAME} # <owner>/<repo>@github
-          oidc-provider-name: kamalkn24/new-repo@github
+frogbot-scan:
+runs-on: ubuntu-latest
+environment: frogbot
 
-      - name: Configure pip to use Artifactory Virtual Repo
-        run: |           
-          jf pip-config --repo-resolve=sws-jf-example-python-remote --server-id-resolve=setup-jfrog-cli-server
+```
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
 
-      - name: Run Frogbit@v2
-        uses: jfrog/frogbot@v2
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Optional: turn on deeper CLI logs while we troubleshoot
-          JFROG_CLI_LOG_LEVEL: "DEBUG"
-          FROGBOT_LOG_LEVEL: "DEBUG"
-          JF_FAIL: true
-        with:
-          oidc-provider-name: kamalkn24/new-repo@github 
+  - name: Setup JFrog CLI (OIDC)
+    uses: jfrog/setup-jfrog-cli@v4
+    env:
+      JF_URL: ${{ secrets.JF_URL }}
+    with:
+      oidc-provider-name: kamalkn24/new-repo@github
+
+  - name: Run Frogbot Scan
+    uses: jfrog/frogbot@v2
+    env:
+      JF_URL: ${{ secrets.JF_URL }}
+      JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      JFROG_CLI_LOG_LEVEL: "DEBUG"
+      JF_INCLUDE_ALL_VULNERABILITIES: "true"
+      FROGBOT_LOG_LEVEL: "DEBUG"
+      JF_FAIL: "true"
