@@ -56,8 +56,7 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         env:
           JF_URL: ${{ secrets.JF_URL }}
-        with:
-          oidc-provider-name: kamalkn24/new-repo@github
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
       # Configure pip to use Artifactory
       - name: Configure pip
