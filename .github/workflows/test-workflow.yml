@@ -112,8 +112,3 @@ jobs:
         run: |
           jf audit --format=sarif > jfrog_audit_results.sarif
 
-      # Upload SARIF results
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: jfrog_scan_results.sarif
