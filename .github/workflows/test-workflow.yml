@@ -32,7 +32,7 @@ jobs:
         with:
           python-version: "3.9"
 
-      # Install system dependencies for Pillow, lxml, and other packages
+      # Install system dependencies
       - name: Install system dependencies
         run: |
           sudo apt-get update
@@ -59,28 +59,34 @@ jobs:
         with:
           oidc-provider-name: kamalkn24/new-repo@github
 
-      # Configure pip to resolve from Artifactory
+      # Configure pip to use Artifactory
       - name: Configure pip
         run: |
           jf pip-config \
             --repo-resolve=sws-jf-example-python-remote \
             --server-id-resolve=setup-jfrog-cli-server
 
-      # Install Python dependencies
+      # Install Python dependencies (FIXED)
       - name: Install Python Dependencies
         run: |
-          jf pip install --upgrade pip setuptools wheel build
+          export PIP_DEFAULT_TIMEOUT=120
+          export PIP_EXTRA_INDEX_URL=https://pypi.org/simple
+
+          # Only install what's actually needed
+          jf pip install build --retries 10
+
           jf pip install -r requirements.txt \
             --build-name $BUILD_NAME \
             --build-number $BUILD_NUMBER \
-            --project=jf-example
+            --project=jf-example \
+            --retries 10
 
       # Build Python package
       - name: Build artifact
         run: |
           python -m build
 
-      # Upload artifacts and build info to Artifactory
+      # Upload artifacts and build info
       - name: Upload artifact and build info
         run: |
           jf rt bce $BUILD_NAME $BUILD_NUMBER --project=jf-example
@@ -106,7 +112,7 @@ jobs:
         run: |
           jf audit --format=sarif > jfrog_audit_results.sarif
 
-      # Upload SARIF results to GitHub Security tab
+      # Upload SARIF results
       - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v3
         with:
