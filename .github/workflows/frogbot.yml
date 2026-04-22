@@ -1,37 +1,22 @@
 name: "Frogbot PR Scan"
-
 on:
-pull_request:
-branches: ["main"]
+  pull_request_target:
+    types: [opened, synchronize]
 
 permissions:
-id-token: write
-contents: read
-pull-requests: write
+  pull-requests: write
+  contents: read
 
 jobs:
-frogbot-scan:
-runs-on: ubuntu-latest
-environment: frogbot
-
-```
-steps:
-  - name: Checkout code
-    uses: actions/checkout@v4
-
-  - name: Setup JFrog CLI (OIDC)
-    uses: jfrog/setup-jfrog-cli@v4
-    env:
-      JF_URL: ${{ secrets.JF_URL }}
-    with:
-      oidc-provider-name: kamalkn24/new-repo@github
-
-  - name: Run Frogbot Scan
-    uses: jfrog/frogbot@v2
-    env:
-      JF_URL: ${{ secrets.JF_URL }}
-      JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      JFROG_CLI_LOG_LEVEL: "DEBUG"
-      JF_INCLUDE_ALL_VULNERABILITIES: "true"
-      JF_FAIL: "false"
-      FROGBOT_LOG_LEVEL: "DEBUG"
+  frogbot-scan:
+    runs-on: ubuntu-latest
+    environment: frogbot
+    steps:
+      - uses: jfrog/frogbot@v2
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JFROG_CLI_LOG_LEVEL: "DEBUG"
+          JF_INCLUDE_ALL_VULNERABILITIES: "true"
+          JF_FAIL: "false"
